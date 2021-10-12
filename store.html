@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>COMP4537 - Lab 4 - Store</title>
+    </head>
+    <body>
+        <label for="word">Word: </label>
+        <input id="word" type="text" name="word" />
+
+        <label for="definition">Definition: </label>
+        <input id="definition" type="text" name="definition" />
+
+        <button onclick="submit()">Submit Definition</button>
+        <p id="feedback"></p>
+
+        <script>
+            const wordInput = document.getElementById("word");
+            const definitionInput = document.getElementById("definition");
+            const feedback = document.getElementById("feedback");
+            const xhttp = new XMLHttpRequest();
+
+            const apiEndPoint = "http://localhost:3000/api/definitions/";
+
+            const submit = () => {
+                xhttp.open("POST", apiEndPoint);
+                xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhttp.send(
+                    new URLSearchParams({
+                        word: wordInput.value,
+                        definition: definitionInput.value
+                    })
+                );
+                xhttp.onreadystatechange = function() {
+                    feedback.innerHTML = this.responseText;
+                }
+            }
+        </script>
+    </body>
+</html>
