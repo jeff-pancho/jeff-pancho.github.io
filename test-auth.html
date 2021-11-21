@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="tryIt()">HELLO</button>
+    <p id="bob"></p>
+    <script>
+        const bob = document.getElementById("bob");
+        
+        const xhttp = new XMLHttpRequest();
+        const endpoint = "http://localhost:3000/"
+
+        const tryIt = () => {
+            xhttp.open("GET", endpoint);
+            xhttp.send();
+            xhttp.onreadystatechange = function() {
+                bob.innerHTML = this.responseText;
+            }
+
+            console.log(xhttp);
+        }
+    </script>
+</body>
+</html>
