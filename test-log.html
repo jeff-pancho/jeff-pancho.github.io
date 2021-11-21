@@ -7,24 +7,76 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="http://localhost:3000/auth/register">
+    <form id="reg-form" method="post">
         <label for="username">Username:</label>
         <input type="text" name="username" id="reg-username">
         <br>
         <label for="password">Password:</label>
         <input type="password" name="password" id="reg-password">
         <br>
-        <input type="submit" formmethod="post">
+        <input type="submit" name="submit" onclick="register(event)">
     </form>
     <br><br>
-    <form action="http://localhost:3000/auth/login">
+    <form id="log-form" method="post">
         <label for="username">Username:</label>
         <input type="text" name="username" id="log-username">
         <br>
         <label for="password">Password:</label>
         <input type="password" name="password" id="log-password">
         <br>
-        <input type="submit" formmethod="post">
+        <input type="submit" name="submit" onclick="login(event)">
     </form>
+    <br><br>
+    <p id="result"></p>
+
+    <script>
+        const endpoint = "http://localhost:3000/auth";
+
+        const regForm = document.getElementById("reg-form");
+        const regUsername = document.getElementById("reg-username");
+        const regPassword = document.getElementById("reg-password");
+        const logForm = document.getElementById("log-form");
+        const logUsername = document.getElementById("log-username");
+        const logPassword = document.getElementById("log-password");
+        const result = document.getElementById("result");
+
+        async function register(e) {
+            e.preventDefault();
+
+            const res = await fetch(endpoint + "/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: new URLSearchParams({
+                    username: regUsername.value,
+                    password: regPassword.value,
+                }),
+            });
+            const json = await res.json();
+
+            result.innerText = JSON.stringify(json);
+        }
+
+        async function login(e) {
+            e.preventDefault();
+
+            const res = await fetch(endpoint + "/login", {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: new URLSearchParams({
+                    username: logUsername.value,
+                    password: logPassword.value,
+                }),
+            });
+            const json = await res.json();
+
+            result.innerText = JSON.stringify(json);
+        }
+
+    </script>
 </body>
 </html>

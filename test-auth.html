@@ -15,14 +15,11 @@
         const xhttp = new XMLHttpRequest();
         const endpoint = "http://localhost:3000/"
 
-        const tryIt = () => {
-            xhttp.open("GET", endpoint);
-            xhttp.send();
-            xhttp.onreadystatechange = function() {
-                bob.innerHTML = this.responseText;
-            }
+        const tryIt = async () => {
+            const res = await fetch(endpoint, {credentials: 'include'});
+            const json = await res.json();
 
-            console.log(xhttp);
+            bob.innerHTML = JSON.stringify(json);
         }
     </script>
 </body>
